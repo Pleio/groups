@@ -154,6 +154,15 @@ function discussion_handle_view_page($guid) {
 		forward('');
 	}
 
+  if ($topic->getSubtype() != 'groupforumtopic') {
+		if (method_exists($topic, 'getURL')) {
+			forward($topic->getURL());
+		} else {
+			register_error(elgg_echo('discussion:topic:notfound'));
+			forward('');
+		}
+  }
+
 	$group = $topic->getContainerEntity();
 	if (!$group) {
 		register_error(elgg_echo('group:notfound'));
