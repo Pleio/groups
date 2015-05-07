@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Groups function library
  */
@@ -352,6 +353,8 @@ function groups_handle_activity_page($guid) {
  */
 function groups_handle_members_page($guid) {
 
+	$dbprefix = elgg_get_config('dbprefix');
+
 	elgg_set_page_owner_guid($guid);
 
 	$group = get_entity($guid);
@@ -372,6 +375,8 @@ function groups_handle_members_page($guid) {
 		'inverse_relationship' => true,
 		'type' => 'user',
 		'limit' => 20,
+		'joins' => array('INNER JOIN ' . $dbprefix . 'users_entity o ON (e.guid = o.guid)'),
+		'order_by' => 'o.name'
 	));
 
 	$params = array(
